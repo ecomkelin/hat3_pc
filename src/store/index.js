@@ -5,6 +5,9 @@ import Auth from './Auth';
 import Request from './Request';
 import User from './User';
 import Attr from './Attr';
+import Cateb from './Cateb';
+import Catef from './Catef';
+import Pd from './Pd';
 
 export default new Vuex.Store({
     modules: {
@@ -12,5 +15,8 @@ export default new Vuex.Store({
         Request,
         User,
         Attr,
+        Cateb,
+        Catef,
+        Pd
     }
 })

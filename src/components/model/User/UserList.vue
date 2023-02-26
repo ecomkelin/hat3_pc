@@ -48,11 +48,11 @@
     <el-table-column prop="code" sortable label="编号" width="120" />
 
     <el-table-column
-      prop="format_crt"
+      prop="at_crt_format"
       label="Date"
       sortable
       column-key="at_crt"
-      :filters="data.dataFilter.format_crt"
+      :filters="data.dataFilter.at_crt_format"
       :filter-method="filterHandler"
     />
 
@@ -60,7 +60,7 @@
 
     <el-table-column
       fixed="right"
-      prop="usable"
+      prop="is_usable_format"
       label="在用"
       width="100"
       sortable
@@ -73,9 +73,9 @@
     >
       <template #default="scope">
         <el-tag
-          :type="scope.row.usable === '禁用' ? 'danger' : 'success'"
+          :type="scope.row.is_usable_format === '禁用' ? 'danger' : 'success'"
           disable-transitions
-          >{{ scope.row.usable }}</el-tag
+          >{{ scope.row.is_usable_format }}</el-tag
         >
       </template>
     </el-table-column>

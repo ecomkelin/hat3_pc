@@ -1,7 +1,7 @@
 <template>
   <!-- 用户组件内部选择器 -->
 
-  <div style="margin: 20px;">
+  <div style="margin: 20px">
     <div class="detail">
       hello User Detail
       <div class="info">
@@ -29,11 +29,11 @@
 import { computed, reactive } from "vue-demi";
 import { useStore } from "vuex";
 
-import {UserUpd} from './UserUpd.vue';
+import UserUpd from "./UserUpd.vue";
 
 export default {
   name: "UserDetail",
-  components: {UserUpd},
+  components: { UserUpd },
   props: ["User"],
   setup(props) {
     const store = useStore();

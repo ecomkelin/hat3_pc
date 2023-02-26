@@ -1,12 +1,12 @@
 <template>
   <!-- Form -->
-  <div style="float: right">
-    <el-button type="primary" @click="dialogFormVisible = true">
-      {{ form.Attk.length > 0 ? "添加属性值" : "添加属性名" }}
+  <div>
+    <el-button type="warning" @click="dialogFormVisible = true">
+      编辑
     </el-button>
   </div>
 
-  <el-dialog v-model="dialogFormVisible" title="添加新的 Attr">
+  <el-dialog v-model="dialogFormVisible" title="更新后台类目">
     <el-form :model="form">
       <el-form-item label="名称" :label-width="'140px'">
         <el-input v-model="form.code" autocomplete="off" />
@@ -16,6 +16,9 @@
         <el-input v-model="form.desc" autocomplete="off" />
       </el-form-item>
 
+      <el-form-item label="排序" :label-width="'140px'">
+        <el-input v-model="form.sort" autocomplete="off" />
+      </el-form-item>
     </el-form>
     <template #footer>
       <span class="dialog-footer">
@@ -23,38 +26,40 @@
         <el-button type="primary" @click="submitHandle"> Confirm </el-button>
       </span>
     </template>
-
   </el-dialog>
-
 </template>
 <script>
-import { watch, reactive, ref } from "vue";
+import { reactive, ref, watch } from "vue";
 import { useStore } from "vuex";
 
 export default {
-  name: "AttrAdd",
+  name: "CatebUpd",
   setup() {
     const store = useStore();
     const dialogFormVisible = ref(false);
 
     const form = reactive({
-      Attk: "",
       code: "",
       desc: "",
+      sort: "",
     });
-
+    
+    let _id;
     watch(dialogFormVisible, () => {
-      form.code = "";
-      form.desc = "";
-      if (store.state.Attr.object) {
-        form.Attk = store.state.Attr.object._id;
-      } else {
-        form.Attk = "";
+      const object = store.state.Cateb.object;
+      if (object) {
+        _id = object._id;
+        form.code = object.code;
+        form.desc = object.desc;
+        form.sort = object.sort;
       }
     });
 
     const submitHandle = async () => {
-      await store.dispatch("Attr/add", form);
+      await store.dispatch("Cateb/update", {
+        filter: { _id },
+        update: form,
+      });
       dialogFormVisible.value = false;
     };
 

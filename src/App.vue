@@ -7,7 +7,7 @@
 import { useStore } from "vuex";
 import localforage from "localforage";
 
-import { computed, reactive } from "@vue/runtime-core";
+import { computed, onMounted, reactive } from "@vue/runtime-core";
 import PcLayout from "./components/_global/layout/PcLayout.vue";
 import LoginUser from "./components/_global/noAuth/LoginUser.vue";
 
@@ -32,7 +32,11 @@ export default {
     if (!ui.isLogin) {
       getPayload(store);
     }
-
+    
+    /** 系统初始化一些数据 */
+    onMounted(async() => {
+      await store.dispatch("Attr/list");
+    })
     return {
       ui,
     };

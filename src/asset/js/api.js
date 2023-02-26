@@ -8,22 +8,30 @@ const methods = ['post', 'get', 'put', 'delete'];
 
 const reqDate = async(options) => {
     try {
-        let { method = "post", url, data, accessToken = "" } = options;
+
+        const Auth = await localforage.getItem("Auth");
+
+        const accessToken = Auth ? Auth.accessToken : "";
+
+        let { method = "post", url, data, is_formDate=false } = options;
         if (!url) throw "请传递url的值";
         method = method.toLowerCase();
         if (!methods.includes(method)) throw "method 错误 只能是 ['post', 'get', 'put', 'delete'] 中的一种";
-
+        const headers = {
+            "content-type": "application/json",
+            'Authorization': 'Bearer ' + accessToken,
+            'Trust-Token': accessToken
+        };
+        if(is_formDate) {
+            url += "?passUpload=1";
+            headers['content-type'] = 'multipart/form-data';
+        }
         const res = await axios({
             method,
             url,
             data,
-            headers: {
-                "content-type": "application/json",
-                'Authorization': 'Bearer ' + accessToken,
-                'Trust-Token': accessToken
-            },
+            headers
         });
-
         return res.data;
     } catch (e) {
         if (e.response) {
@@ -39,6 +47,7 @@ const reqRefresh = async() => {
         const Auth = await localforage.getItem("Auth");
         const refreshToken = Auth ? Auth.refreshToken : null;
         if(!refreshToken) throw "系统找不到 refreshToken"
+
         const res = await axios({
             method: "get",
             url: "/h3/api/login/refreshToken",
@@ -60,17 +69,13 @@ const reqRefresh = async() => {
 
 export default async (options = {}) => {
     try {
-
         let { method = "post", url } = options;
 
         if (!url) throw "请传递url的值";
+        if(url.includes('undefined') || url.includes('null')) return;
         method = method.toLowerCase();
         if (!methods.includes(method)) throw "method 错误 只能是 ['post', 'get', 'put', 'delete'] 中的一种";
         options.method = method;
-
-        const Auth = await localforage.getItem("Auth");
-        options.accessToken = Auth ? Auth.accessToken : "";
-
         let resDate = await reqDate(options);
         // console.info(" @@ 1 @@", resDate);
         if(resDate.status === 401) {

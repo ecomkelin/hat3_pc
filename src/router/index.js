@@ -3,11 +3,14 @@ import { createRouter,createWebHashHistory} from "vue-router";
 // 1. Define route components.
 // These can be imported from other files
 import HatHome from '../pages/HatHome';
-import HatAttr from '../pages/HatAttr';
 import HatUser from '../pages/HatUser';
+import HatAttr from '../pages/HatAttr';
+import HatCateb from '../pages/HatCateb';
+import HatCatef from '../pages/HatCatef';
+import HatPd from '../pages/HatPd';
 import AnalysisOrder from '../pages/AnalysisOrder';
 
-import TestDemo from '../pages/TestDemo';
+import HatSetting from '../pages/HatSetting';
 import TestSave from '../pages/TestSave';
 
 // 2. Define some routes
@@ -15,9 +18,12 @@ import TestSave from '../pages/TestSave';
 // We'll talk about nested routes later.
 const routes = [
   { path: '/', component: HatHome },
-  { path: '/attr', component: HatAttr },
-  { path: '/user', component: HatUser },
-  { path: '/demo', component: TestDemo },
+  { path: '/User', component: HatUser },
+  { path: '/Attr', component: HatAttr },
+  { path: '/Cateb', component: HatCateb },
+  { path: '/Catef', component: HatCatef },
+  { path: '/Pd', component: HatPd },
+  { path: '/setting', component: HatSetting },
   { path: '/AnalysisOrder', component: AnalysisOrder },
   { path: '/save', component: TestSave },
 ]

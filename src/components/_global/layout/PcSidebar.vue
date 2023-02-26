@@ -56,18 +56,20 @@ export default {
       spreadbar: "spreadbar",
       navs: [
         { id: "nav01-", title: "Home", to: "/", class: "bx bx-grid-alt" },
+        { id: "nav04-", title: "产品", to: "/Pd", class: "bx bx-grid-alt" },
+        { id: "nav05-", title: "Order", to: "/", class: "bx bx-cart-alt" },
+        { id: "nav06-", title: "用户", to: "/user", class: "bx bx-user" },
+        { id: "nav03-", title: "前台类目", to: "/Catef", class: "bx bx-chat" },
+        { id: "nav03-", title: "后台类目", to: "/Cateb", class: "bx bx-chat" },
+        { id: "nav07-", title: "属性", to: "/attr", class: "bx bx-grid-alt" },
         {
-          id: "nav05-",
+          id: "nav02-",
           title: "Analytics",
           to: "/analysisOrder",
           class: "bx bx-pie-chart-alt-2",
         },
-        { id: "nav06-", title: "Order", to: "/", class: "bx bx-cart-alt" },
-        { id: "nav04-", title: "Message", to: "/", class: "bx bx-chat" },
-        { id: "nav03-", title: "用户", to: "/user", class: "bx bx-user" },
-        { id: "nav02-", title: "属性", to: "/attr", class: "bx bx-grid-alt" },
-        { id: "nav07-", title: "Saved", to: "/save", class: "bx bx-heart" },
-        { id: "nav08-", title: "Setting", to: "/demo", class: "bx bx-cog" },
+        { id: "nav08-", title: "Saved", to: "/save", class: "bx bx-heart" },
+        { id: "nav09-", title: "Setting", to: "/setting", class: "bx bx-cog" },
       ],
     });
 

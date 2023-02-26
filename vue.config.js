@@ -13,7 +13,7 @@ module.exports = defineConfig({
     }
   },
   // lintOnSave: true,      // 关闭语法检查
-  
+
   /** 自定义 Webpack 配置 */
   configureWebpack: {
     plugins: [
@@ -35,7 +35,7 @@ module.exports = defineConfig({
         /** changeOrigin 通俗的说 如果为true 则会像服务器撒谎 把自己的地址改变为 请求的后端服务器的 host 建议
          * 如果为否 则不撒谎 为自己的 host
          */
-        // changeOrigin: true // 用于控制请求头中的 host的值 
+        changeOrigin: true // 用于控制请求头中的 host的值 
       }
       // ,
       // '/hat2': {

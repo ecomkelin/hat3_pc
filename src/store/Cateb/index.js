@@ -9,16 +9,15 @@ export default {
         },
 
         MT_add(state, object) {
-            if (object.Attk) {
+            if(object.level === 1) {
+                state.objects.unshift(object);
+            } else if(object.level === 2) {
                 for (let index = 0; index < state.objects.length; index++) {
-                    if (String(state.objects[index]._id) === String(object.Attk)) {
-                        if(!state.objects[index].Attvs) state.objects[index].Attvs = [];
-                        state.objects[index].Attvs.push(object);
+                    if (String(state.objects[index]._id) === String(object.Cateb_parent)) {
+                        state.objects.unshift(object);
                         break;
                     }
                 }
-            } else {
-                state.objects.unshift(object);
             }
         },
 

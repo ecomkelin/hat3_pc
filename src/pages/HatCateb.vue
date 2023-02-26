@@ -2,14 +2,14 @@
   <div class="common-layout wrapper">
     <el-container class="scrollable-aside">
       <el-aside width="200px">
-        <AttrList />
+        <CatebList />
       </el-aside>
       <el-container>
         <el-header class="fixed-header">
-        <AttrAdd />
+        <CatebAdd />
         </el-header>
         <el-main class="fixed-main">
-  <AttrDetail />
+  <CatebDetail />
         </el-main>
       </el-container>
     </el-container>
@@ -17,11 +17,12 @@
 </template>
 
 <script>
-import AttrAdd from "@/components/model/Attr/AttrAdd.vue";
-import AttrList from "@/components/model/Attr/AttrList.vue";
-import AttrDetail from "@/components/model/Attr/AttrDetail.vue";
+import CatebAdd from "@/components/model/Cateb/CatebAdd.vue";
+import CatebList from "@/components/model/Cateb/CatebList.vue";
+import CatebDetail from "@/components/model/Cateb/CatebDetail.vue";
 export default {
-  components: { AttrList, AttrDetail, AttrAdd },
+  name: "HatCateb",
+  components: { CatebList, CatebDetail, CatebAdd },
   setup() {},
 };
 </script>

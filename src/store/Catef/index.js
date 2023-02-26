@@ -9,17 +9,7 @@ export default {
         },
 
         MT_add(state, object) {
-            if (object.Attk) {
-                for (let index = 0; index < state.objects.length; index++) {
-                    if (String(state.objects[index]._id) === String(object.Attk)) {
-                        if(!state.objects[index].Attvs) state.objects[index].Attvs = [];
-                        state.objects[index].Attvs.push(object);
-                        break;
-                    }
-                }
-            } else {
-                state.objects.unshift(object);
-            }
+            state.objects.unshift(object);
         },
 
         MT_update(state, objects) {

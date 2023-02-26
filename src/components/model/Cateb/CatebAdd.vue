@@ -2,11 +2,11 @@
   <!-- Form -->
   <div style="float: right">
     <el-button type="primary" @click="dialogFormVisible = true">
-      {{ form.Attk.length > 0 ? "添加属性值" : "添加属性名" }}
+      {{ form.Cateb_parent.length > 0 ? "添加子后台类目" : "添加后台类目" }}
     </el-button>
   </div>
 
-  <el-dialog v-model="dialogFormVisible" title="添加新的 Attr">
+  <el-dialog v-model="dialogFormVisible" title="添加新的 Cateb">
     <el-form :model="form">
       <el-form-item label="名称" :label-width="'140px'">
         <el-input v-model="form.code" autocomplete="off" />
@@ -16,6 +16,9 @@
         <el-input v-model="form.desc" autocomplete="off" />
       </el-form-item>
 
+      <el-form-item label="排序" :label-width="'140px'">
+        <el-input v-model="form.sort" autocomplete="off" />
+      </el-form-item>
     </el-form>
     <template #footer>
       <span class="dialog-footer">
@@ -23,38 +26,38 @@
         <el-button type="primary" @click="submitHandle"> Confirm </el-button>
       </span>
     </template>
-
   </el-dialog>
-
 </template>
 <script>
 import { watch, reactive, ref } from "vue";
 import { useStore } from "vuex";
 
 export default {
-  name: "AttrAdd",
+  name: "CatebAdd",
   setup() {
     const store = useStore();
     const dialogFormVisible = ref(false);
 
     const form = reactive({
-      Attk: "",
+      Cateb_parent: "",
       code: "",
       desc: "",
+      sort: 0,
     });
 
     watch(dialogFormVisible, () => {
       form.code = "";
       form.desc = "";
-      if (store.state.Attr.object) {
-        form.Attk = store.state.Attr.object._id;
+      form.sort = 0;
+      if (store.state.Cateb.object) {
+        form.Cateb_parent = store.state.Cateb.object._id;
       } else {
-        form.Attk = "";
+        form.Cateb_parent = "";
       }
     });
 
     const submitHandle = async () => {
-      await store.dispatch("Attr/add", form);
+      await store.dispatch("Cateb/add", form);
       dialogFormVisible.value = false;
     };
 

@@ -1,13 +1,13 @@
 <template>
-  后台类目详情:
-  <div v-if="data.object">
+  前台类目详情:
+  <div v-if="data.Catef">
     <ul>
-      <li>名称: {{ data.object.code }}</li>
-      <li v-if="data.object.desc">描述: {{ data.object.desc }}</li>
-      <li>sort: {{ data.object.sort }}</li>
+      <li>名称: {{ data.Catef.code }}</li>
+      <li v-if="data.Catef.desc">描述: {{ data.Catef.desc }}</li>
+      <li>sort: {{ data.Catef.sort }}</li>
     </ul>
     <div style="float: right; margin-top: 50px">
-      <!-- <AttrUpd /> -->
+      <CatefUpd />
       <el-button type="danger" @click="deleteOneHandle"> 删除 </el-button>
     </div>
   </div>
@@ -17,25 +17,25 @@
 import { computed, reactive } from "vue-demi";
 import { useStore } from "vuex";
 
-// import AttrUpd from "./AttrUpd.vue"
+import CatefUpd from "./CatefUpd.vue"
 
 export default {
-  name: "AttrDetail",
-  // components: {AttrUpd},
+  name: "CatefDetail",
+  components: {CatefUpd},
   setup() {
     const store = useStore();
 
     const data = reactive({
-      object: null,
+      Catef: null,
     });
 
-    data.object = computed(() => {
-      return store.state.Attr.object;
+    data.Catef = computed(() => {
+      return store.state.Catef.object;
     });
 
     const deleteOneHandle = async () => {
       const confirmed = confirm("确定要删除该项吗？");
-      if (confirmed) await store.dispatch("Attr/deleteOne", {is_Attk: true, _id: data.object._id});
+      if (confirmed) await store.dispatch("Catef/deleteOne", data.Catef._id);
     };
 
     return {

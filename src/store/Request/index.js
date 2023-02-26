@@ -10,7 +10,7 @@ const initState = {
         at_after: {}
     },
     skip: 0,
-    limit: 50,
+    limit: 100,
     sort: {}
 }
 
@@ -23,6 +23,19 @@ export default {
         },
         MT_sortSet(state, sort) {
             state.sort = sort;
+        },
+        MT_CatefsSet(state, Catef_id) {
+            state.filter.includes.Catefs = Catef_id;
+        },
+        MT_CatefsUnset(state) {
+            delete state.filter.includes.Catefs
+        },
+        MT_pageSet(state, page=1) {
+            try {
+                state.skip = (page - 1) * state.limit;
+            } catch(e) {
+                console.error("Reqest MT_pageSet Error: ", e);
+            }
         },
         MT_reset(state) {
             for(let key in initState) {

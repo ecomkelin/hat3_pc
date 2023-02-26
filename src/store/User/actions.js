@@ -1,6 +1,5 @@
-import api from "@/asset/js/api";
-
 import moment from "moment";
+import api from "@/asset/js/api";
 
 const roleMap = {
     10: "manager",
@@ -13,7 +12,7 @@ export default {
     async list(context, data) {
         try {
             const success = await api({
-                url: "/h3/models/user/find",
+                url: "/h3/models/User/find",
                 data,
             });
             const { objects } = success;
@@ -21,23 +20,23 @@ export default {
             // await localforage.setItem("Users", objects);
 
             const check = {
-                format_crt: []
+                at_crt_format: []
             }
             const dataFilter = {
-                format_crt: []
+                at_crt_format: []
             }
             objects.forEach(object => {
                 /** at_crt */
-                object.format_crt = moment(object.at_crt).format("YYYY-MM-DD");
-                if (!check.format_crt.includes(object.format_crt)) {
-                    check.format_crt.push(object.format_crt);
-                    dataFilter.format_crt.push({ text: object.format_crt, value: object.format_crt });
+                object.at_crt_format = moment(object.at_crt).format("YYYY-MM-DD");
+                if (!check.at_crt_format.includes(object.at_crt_format)) {
+                    check.at_crt_format.push(object.at_crt_format);
+                    dataFilter.at_crt_format.push({ text: object.at_crt_format, value: object.at_crt_format });
                 }
                 /** role */
                 object._role = roleMap[object.role]
 
                 /** is_usable */
-                object.usable = object.is_usable ? "在用" : "禁用";
+                object.is_usable_format = object.is_usable ? "在用" : "禁用";
             })
             context.commit('MT_list', { objects, dataFilter });
         } catch (e) {
@@ -48,14 +47,14 @@ export default {
     async add( context, document = {} ) {
         const data = {document};
         const success = await api({
-            url: "/h3/models/user/insertOne",
+            url: "/h3/models/User/insertOne",
             data,
         });
         context.commit('MT_add', success.document);
     },
     async update( context, data = {} ) {
         const success = await api({
-            url: "/h3/models/user/updateOne",
+            url: "/h3/models/User/updateOne",
             data,
         });
         const {object} = success;
@@ -65,7 +64,7 @@ export default {
 
         const data = {filter: {includes: {_id: ids}}, update};
         const success = await api({
-            url: "/h3/models/user/updateMany",
+            url: "/h3/models/User/updateMany",
             data,
         });
         console.log("占位", context, success)
@@ -74,7 +73,7 @@ export default {
 
         const data = {filter: {includes: {_id: ids}}}
         const success = await api({
-            url: "/h3/models/user/deleteMany",
+            url: "/h3/models/User/deleteMany",
             data,
         });
         if (success.deletedResult.deletedCount === 0) {
@@ -85,7 +84,7 @@ export default {
     async deleteOne(context, _id) {
         const data = {filter: {_id}};
         const success = await api({
-            url: "/h3/models/user/deleteOne",
+            url: "/h3/models/User/deleteOne",
             data,
         });
         if (success.deletedResult.deletedCount === 0) {

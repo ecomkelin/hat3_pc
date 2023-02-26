@@ -6,7 +6,7 @@
     </el-button>
   </div>
 
-  <el-dialog v-model="dialogFormVisible" title="Shipping address">
+  <el-dialog v-model="dialogFormVisible" title="更新用户">
     <el-form :model="form">
       <el-form-item label="编号" :label-width="'140px'">
         <el-input v-model="form.code" autocomplete="off" />
