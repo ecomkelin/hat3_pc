@@ -5,6 +5,7 @@ const Components = require('unplugin-vue-components/webpack')
 const { ElementPlusResolver } = require('unplugin-vue-components/resolvers')
 
 module.exports = defineConfig({
+  publicPath: './',
   transpileDependencies: true,
   pages: {
     // 入口文件
@@ -31,12 +32,17 @@ module.exports = defineConfig({
       '/h3': {
         target: 'https://babystore.yiqi.it',
         pathRewrite: { '^/h3': '' },    // 请求路径中的 /h3 去掉
-        // ws: true,          // 用于支持 websocket
-        /** changeOrigin 通俗的说 如果为true 则会像服务器撒谎 把自己的地址改变为 请求的后端服务器的 host 建议
-         * 如果为否 则不撒谎 为自己的 host
-         */
         changeOrigin: true // 用于控制请求头中的 host的值 
       }
+      // '/hat3': {
+      //   target: 'https://babystore.yiqi.it',
+      //   pathRewrite: { '^/h3': '' },    // 请求路径中的 /h3 去掉
+      //   // ws: true,          // 用于支持 websocket
+      //   /** changeOrigin 通俗的说 如果为true 则会像服务器撒谎 把自己的地址改变为 请求的后端服务器的 host 建议
+      //    * 如果为否 则不撒谎 为自己的 host
+      //    */
+      //   changeOrigin: true // 用于控制请求头中的 host的值 
+      // }
       // ,
       // '/hat2': {
       //   target: 'http://localhost:8001',
