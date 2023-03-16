@@ -42,7 +42,7 @@
     :default-expand-all="false"
     @selection-change="handleSelectionChange"
   >
-    <el-table-column type="expand" fixed="left">
+    <el-table-column type="expand">
       <template #default="props">
         <div style="margin: 15px">
           <PdDetail :Pd="props.row" />
@@ -50,7 +50,7 @@
       </template>
     </el-table-column>
 
-    <el-table-column type="index" width="50" fixed="left" />
+    <el-table-column type="index" width="50" />
     <el-table-column type="selection" width="55" />
 
     <el-table-column label="图片">
@@ -83,9 +83,13 @@
     <el-table-column label="前台类目">
       <template #default="{ row }">
         <ul v-if="row.Catefs_as?.length > 0">
-          <li v-for="Catef in row.Catefs_as" :key="row._id+Catef._id">{{Catef.code}}</li>
+          <li v-for="Catef in row.Catefs_as" :key="row._id + Catef._id">
+            {{ Catef.code }}
+          </li>
         </ul>
-        <UpdCatef :Pd="row" />
+        <el-button type="warning" link @click="showUpdCatef(row)">
+          修改
+        </el-button>
       </template>
     </el-table-column>
 
@@ -108,7 +112,6 @@
     </el-table-column>
 
     <el-table-column
-      fixed="right"
       prop="is_usable"
       label="上架"
       width="100"
@@ -131,48 +134,45 @@
       </template>
     </el-table-column>
   </el-table>
-
   <PagiNation />
+  <div v-if="compson.objectUpdCatef">
+    <UpdCatef
+      ref="refUpdcatef"
+      :Pd="compson.objectUpdCatef"
+      :clearObjUpdCatef="clearObjUpdCatef"
+    />
+  </div>
 </template>
 
-<script>
+<script setup>
 import { computed, reactive, ref, watch } from "vue";
 import { useStore } from "vuex";
-/** 删除确认按钮 */
-// import { ElMessage, ElMessageBox } from "element-plus";
 
 import PagiNation from "@/components/request/PagiNation.vue";
 
 import PdDetail from "./PdDetail.vue";
-import UpdCatef from './UpdCatef.vue';
+import UpdCatef from "./UpdCatef.vue";
 
-export default {
-  name: "PdList",
-  components: { PdDetail, PagiNation, UpdCatef },
-  setup() {
     const store = useStore();
 
     const data = reactive({
-      req: {},
+      req: {}, // 请求后端的 筛选条件
 
-      Pds: [],
-      dataFilter: [],
+      Pds: [], // 获取的数据
+      dataFilter: [], // store对获取的数据的归纳，可以进行数据筛选
 
-      filterPds: [],
+      filterPds: [], // 对获取的数据 进行筛选
       searchText: "",
 
-      sel_Pds: [],
+      sel_Pds: [], // 被勾选的 数据
     });
-
     data.req = computed(() => store.state.Request);
-
     data.Pds = computed(() => {
       return store.state.Pd.objects;
     });
     data.dataFilter = computed(() => {
       return store.state.Pd.dataFilter;
     });
-
     /** 本页面 filter */
     data.filterPds = computed(() => {
       if (!data.searchText) {
@@ -183,6 +183,7 @@ export default {
       );
     });
 
+    /** 如果筛选条件变动 就会去后端调取数据 */
     watch(
       data.req,
       async () => {
@@ -194,19 +195,15 @@ export default {
       await store.dispatch("Pd/list", data.req);
     };
 
-    /** 多选用的 比如日期筛选 */
+    /** 本页筛选用的 比如日期筛选 */
     const filterHandler = (value, row, column) => {
       const property = column["property"];
       return row[property] === value;
     };
 
-    /** 最后一行 tag 的筛选 给 is_usable 预留的 */
-    const filterTag = (value, row) => {
-      return row.tag === value;
-    };
-
-    const tableRef = ref([]);
     /** checkbox 模块的操作  */
+    const tableRef = ref([]);
+    /** 反选 */
     const toggleSelection = (rows) => {
       if (rows) {
         rows.forEach((row) => {
@@ -216,11 +213,11 @@ export default {
         tableRef.value.clearSelection();
       }
     };
-
+    /** 清空选择 */
     const clearFilter = () => {
       tableRef.value.clearFilter();
     };
-
+    /** selection-change	当选择项发生变化时会触发该事件 */
     const handleSelectionChange = (selection) => {
       data.sel_Pds = selection;
     };
@@ -254,6 +251,7 @@ export default {
       location.reload();
     };
 
+    /** 对过长的字符串 限制 */
     const truncate = (str) => {
       const maxLength = 20;
       if (str.length > maxLength) {
@@ -263,22 +261,18 @@ export default {
       }
     };
 
-    return {
-      filterHandler,
-      filterTag,
-      toggleSelection,
-      clearFilter,
-      handleSelectionChange,
-      updateSetManyHandle,
-
-      deleteManyHandle,
-      listHandle,
-
-      tableRef, // 表格的 ref
-
-      data,
-      truncate, // 省略号
+    /** 对 UpdCatef 的控制 */
+    const refUpdcatef = ref(null);
+    const compson = reactive({
+      objectUpdCatef: null, // 操作的 对象
+    });
+    /** 关闭 UpdCatef */
+    const clearObjUpdCatef = () => {
+      compson.objectUpdCatef = null;
     };
-  },
-};
+    /** 显示 UpdCatef */
+    const showUpdCatef = (Pd) => {
+      compson.objectUpdCatef = Pd;
+    };
+
 </script>

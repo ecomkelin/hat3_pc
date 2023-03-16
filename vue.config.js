@@ -29,7 +29,7 @@ module.exports = defineConfig({
   devServer: {
     proxy: {
       '/h3': {
-        target: 'http://localhost:8000',
+        target: 'https://babystore.yiqi.it',
         pathRewrite: { '^/h3': '' },    // 请求路径中的 /h3 去掉
         // ws: true,          // 用于支持 websocket
         /** changeOrigin 通俗的说 如果为true 则会像服务器撒谎 把自己的地址改变为 请求的后端服务器的 host 建议

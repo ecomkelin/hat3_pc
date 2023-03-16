@@ -1,17 +1,21 @@
-import { createRouter,createWebHashHistory} from "vue-router";
+import { createRouter, createWebHashHistory } from "vue-router";
 
 // 1. Define route components.
 // These can be imported from other files
 import HatHome from '../pages/HatHome';
 import HatUser from '../pages/HatUser';
-import HatAttr from '../pages/HatAttr';
-import HatCateb from '../pages/HatCateb';
 import HatCatef from '../pages/HatCatef';
 import HatPd from '../pages/HatPd';
-import AnalysisOrder from '../pages/AnalysisOrder';
+import HatOrder from '../pages/HatOrder';
 
 import HatSetting from '../pages/HatSetting';
 import TestSave from '../pages/TestSave';
+
+import AnalysisOrder from '../pages/AnalysisOrder';
+import HatCateb from '../pages/HatCateb';
+import HatAttr from '../pages/HatAttr';
+import FileImg from "@/components/setting/FileImg"
+import HomePd from "@/components/setting/HomePd"
 
 // 2. Define some routes
 // Each route should map to a component.
@@ -19,13 +23,17 @@ import TestSave from '../pages/TestSave';
 const routes = [
   { path: '/', component: HatHome },
   { path: '/User', component: HatUser },
-  { path: '/Attr', component: HatAttr },
-  { path: '/Cateb', component: HatCateb },
   { path: '/Catef', component: HatCatef },
   { path: '/Pd', component: HatPd },
+  { path: '/Order', component: HatOrder },
   { path: '/setting', component: HatSetting },
-  { path: '/AnalysisOrder', component: AnalysisOrder },
   { path: '/save', component: TestSave },
+  
+  { path: '/AnalysisOrder', component: AnalysisOrder },
+  { path: '/Cateb', component: HatCateb },
+  { path: '/Attr', component: HatAttr },
+  { path: '/images', component: FileImg },
+  { path: '/HomePd', component: HomePd },
 ]
 
 // 3. Create the router instance and pass the `routes` option

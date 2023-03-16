@@ -1,8 +1,6 @@
 <template>
-  <div style="padding: 10px; border: 1px solid black;">
-    <div style="margin-bottom: 10px"> 点击按钮 选择批量上传 的产品 excel</div>
-    <input type="file" ref="fileInput" @change="handleChangeIpt" />
-  </div>
+  <div style="margin-bottom: 10px">点击按钮 选择批量上传 的产品 excel</div>
+  <input type="file" ref="fileInput" @change="handleChangeIpt" />
 </template>
 
 <script>

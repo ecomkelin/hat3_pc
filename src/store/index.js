@@ -8,6 +8,7 @@ import Attr from './Attr';
 import Cateb from './Cateb';
 import Catef from './Catef';
 import Pd from './Pd';
+import Order from './Order';
 
 export default new Vuex.Store({
     modules: {
@@ -17,6 +18,7 @@ export default new Vuex.Store({
         Attr,
         Cateb,
         Catef,
-        Pd
+        Pd,
+        Order,
     }
 })

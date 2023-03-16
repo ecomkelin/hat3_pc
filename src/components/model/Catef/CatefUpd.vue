@@ -12,10 +12,34 @@
         <el-input v-model="update.code" autocomplete="off" />
       </el-form-item>
 
-      <!-- <el-form-item label="描述" :label-width="'140px'">
-        <el-input v-model="update.desc" autocomplete="off" />
-      </el-form-item> -->
+      <el-form-item label="可用" :label-width="'140px'">
+        <el-radio-group v-model="update.show_list" class="ml-4">
+          <el-radio :label="true" size="large">可用</el-radio>
+          <el-radio :label="false" size="large">禁用</el-radio>
+        </el-radio-group>
+      </el-form-item>
 
+      <el-form-item label="产品展示" :label-width="'140px'">
+        <el-radio-group v-model="update.show_home" class="ml-4">
+          <el-radio :label="true" size="large">是</el-radio>
+          <el-radio :label="false" size="large">否</el-radio>
+        </el-radio-group>
+      </el-form-item>
+
+      <el-form-item label="购物车推荐" :label-width="'140px'">
+        <el-radio-group v-model="update.show_cart" class="ml-4">
+          <el-radio :label="true" size="large">是</el-radio>
+          <el-radio :label="false" size="large">否</el-radio>
+        </el-radio-group>
+      </el-form-item>
+
+      <el-form-item label="个人中心推荐" :label-width="'140px'">
+        <el-radio-group v-model="update.show_profile" class="ml-4">
+          <el-radio :label="true" size="large">是</el-radio>
+          <el-radio :label="false" size="large">否</el-radio>
+        </el-radio-group>
+      </el-form-item>
+  
       <el-form-item label="排序" :label-width="'140px'">
         <el-input v-model="update.sort" autocomplete="off" />
       </el-form-item>
@@ -44,7 +68,10 @@ export default {
 
     const update = reactive({
       code: "",
-      // desc: "",
+      show_list: true,
+      show_home: false,
+      show_cart: false,
+      show_profile: false,
       sort: "",
     });
 
@@ -54,10 +81,19 @@ export default {
       if (object) {
         _id = object._id;
         update.code = object.code;
-        // update.desc = object.desc;
+        update.show_list = object.show_list;
+        update.show_home = object.show_home;
+        update.show_cart = object.show_cart;
+        update.show_profile = object.show_profile;
         update.sort = object.sort;
       }
     });
+    /** 监视 是否可用 */
+    // watch(update, () => {
+    //   if (update.show_list === false) {
+    //     update.show_home = false
+    //   }
+    // });
 
     /** 要提交的文件 */
     const file = ref([]);

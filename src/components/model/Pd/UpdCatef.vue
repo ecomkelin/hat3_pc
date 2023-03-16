@@ -1,28 +1,29 @@
 <template>
-  <el-button type="warning" link @click="dialogFormVisible = true">
-    修改
-  </el-button>
+    <el-dialog
+      v-model="dialogFormVisible"
+      :before-close="handleBeforeClose"
+      title="修改产品的前台类目"
+      width="400"
+    >
+      <el-form :model="update">
+        <el-form-item label="前台类目" :label-width="'140px'">
+          <el-cascader
+            :props="{ multiple: true }"
+            :options="Catef_options"
+            @change="handleCatefChange"
+            filterable
+            clearable
+          />
+        </el-form-item>
+      </el-form>
 
-  <el-dialog v-model="dialogFormVisible" title="修改产品的前台类目" width="300">
-    <el-form :model="update">
-      <el-form-item label="前台类目" :label-width="'140px'">
-        <el-cascader
-          :props="{ multiple: true }"
-          :options="Catef_options"
-          @change="handleCatefChange"
-          filterable
-          clearable
-        />
-      </el-form-item>
-    </el-form>
-
-    <template #footer>
-      <span class="dialog-footer">
-        <el-button @click="dialogFormVisible = false">Cancel</el-button>
-        <el-button type="primary" @click="submitHandle"> Confirm </el-button>
-      </span>
-    </template>
-  </el-dialog>
+      <template #footer>
+        <span class="dialog-footer">
+          <el-button @click="closeDialog">Cancel</el-button>
+          <el-button type="primary" @click="submitHandle"> Confirm </el-button>
+        </span>
+      </template>
+    </el-dialog>
 </template>
 <script>
 import { computed, reactive, ref } from "vue";
@@ -30,12 +31,11 @@ import { useStore } from "vuex";
 
 export default {
   name: "UpdCatef",
-  props: ["Pd"],
+  props: ["Pd", "clearObjUpdCatef"],
   setup(props) {
     const store = useStore();
     /** 模态框 控制 弹出隐藏 false 为隐藏 */
-    const dialogFormVisible = ref(false);
-
+    const dialogFormVisible = ref(true);
     /** 要提交的数据 */
     const update = reactive({
       Catefs: props.Pd.Catefs,
@@ -68,17 +68,29 @@ export default {
       }
     };
 
+    const closeDialog = () => {
+      props.clearObjUpdCatef();
+      dialogFormVisible.value = false;
+    };
+
     /** 提交 form */
     const submitHandle = async () => {
       await store.dispatch("Pd/update", {
         filter: { _id: props.Pd._id },
         update,
       });
-      dialogFormVisible.value = false;
+      closeDialog();
+    };
+
+    const handleBeforeClose = () => {
+      closeDialog();
     };
 
     return {
       dialogFormVisible,
+      closeDialog,
+      handleBeforeClose,
+
       update,
       Catef_options,
       handleCatefChange,

@@ -16,16 +16,11 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import PdAdd from "@/components/model/Pd/PdAdd.vue";
 import PdList from "@/components/model/Pd/PdList.vue";
 import CatefList from "@/components/model/Catef/CatefList.vue";
 import ReqData from "@/components/request/ReqData.vue";
-
-export default {
-  components: { ReqData, CatefList, PdList, PdAdd },
-  setup() {},
-};
 </script>
 
 <style>

@@ -6,7 +6,7 @@
     </el-button>
   </div>
 
-  <el-dialog v-model="dialogFormVisible" title="新的 Sku">
+  <el-dialog v-model="dialogFormVisible" title="新的 Sku" width="500px">
     <el-form :model="document">
       <el-form-item label="属性选择" :label-width="'140px'">
         <el-cascader

@@ -12,14 +12,6 @@
       <div class="info">
         <p style="margin: 10px">编号: {{ data.Pd.code }}</p>
         <p style="margin: 10px">名称: {{ data.Pd.name }}</p>
-        <!-- <p
-          style="margin: 10px"
-          v-if="data.Pd.Cateb_formats && data.Pd.Cateb_as"
-        >
-          后台类目:
-          {{ data.Pd.Cateb_formats[0]?.label }} --
-          {{ data.Pd.Cateb_as[0]?.code }}
-        </p> -->
         <div
           style="margin: 10px"
           v-if="data.Pd.Catefs_as && data.Pd.Catefs_as.length > 0"
@@ -49,7 +41,6 @@
         <p style="margin: 10px">创建时间: {{ data.Pd.at_crt_format }}</p>
         <PdFile :object="data.Pd" />
       </div>
-      <div class="upd"></div>
     </div>
 
     <el-row style="margin-top: 20px; margin-bottom: 10px">

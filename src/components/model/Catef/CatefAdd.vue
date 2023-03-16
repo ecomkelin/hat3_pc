@@ -12,9 +12,33 @@
         <el-input v-model="document.code" autocomplete="off" />
       </el-form-item>
 
-      <!-- <el-form-item label="描述" :label-width="'140px'">
-        <el-input v-model="document.desc" autocomplete="off" />
-      </el-form-item> -->
+      <el-form-item label="可用" :label-width="'140px'">
+        <el-radio-group v-model="document.show_list" class="ml-4">
+          <el-radio :label="true" size="large">可用</el-radio>
+          <el-radio :label="false" size="large">禁用</el-radio>
+        </el-radio-group>
+      </el-form-item>
+
+      <el-form-item label="产品展示" :label-width="'140px'">
+        <el-radio-group v-model="document.show_home" class="ml-4">
+          <el-radio :label="true" size="large">是</el-radio>
+          <el-radio :label="false" size="large">否</el-radio>
+        </el-radio-group>
+      </el-form-item>
+
+      <el-form-item label="购物车推荐" :label-width="'140px'">
+        <el-radio-group v-model="document.show_cart" class="ml-4">
+          <el-radio :label="true" size="large">是</el-radio>
+          <el-radio :label="false" size="large">否</el-radio>
+        </el-radio-group>
+      </el-form-item>
+
+      <el-form-item label="个人中心推荐" :label-width="'140px'">
+        <el-radio-group v-model="document.show_profile" class="ml-4">
+          <el-radio :label="true" size="large">是</el-radio>
+          <el-radio :label="false" size="large">否</el-radio>
+        </el-radio-group>
+      </el-form-item>
 
       <el-form-item label="排序" :label-width="'140px'">
         <el-input v-model="document.sort" autocomplete="off" />
@@ -23,7 +47,6 @@
       <el-form-item label="图片" :label-width="'140px'">
         <input type="file" @change="handleFileChange" />
       </el-form-item>
-      
     </el-form>
 
     <template #footer>
@@ -47,6 +70,10 @@ export default {
     const document = reactive({
       code: "",
       // desc: "",
+      show_list: true,
+      show_home: false,
+      show_cart: false,
+      show_profile: false,
       sort: 0,
     });
 
@@ -65,14 +92,11 @@ export default {
     const submitHandle = async () => {
       if (file.value) {
         const formData = new FormData();
-          formData.append("icon", file.value);
-        formData.append(
-          "body",
-          JSON.stringify({document})
-        );
+        formData.append("icon", file.value);
+        formData.append("body", JSON.stringify({ document }));
         await store.dispatch("Catef/add", formData);
       } else {
-        await store.dispatch("Catef/add", {document});
+        await store.dispatch("Catef/add", { document });
       }
       dialogFormVisible.value = false;
     };

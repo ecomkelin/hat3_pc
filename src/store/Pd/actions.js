@@ -179,12 +179,12 @@ export default {
         const success = await api({
             url: "/h3/models/Pd/updateOne",
             data,
+            is_formDate: data.update ? false : true
         });
         const { object } = success;
         context.commit('MT_update', [object]);
     },
     async updateSku(context, data = {}) {
-        console.log(11111)
         console.debug(" @@ 占位 ", context);
         await api({
             url: "/h3/models/Sku/updateOne",

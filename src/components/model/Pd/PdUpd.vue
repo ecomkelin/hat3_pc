@@ -115,11 +115,6 @@ export default {
       isChange,
 
       form,
-
-      // Cateb_formats: props.object.Cateb_formats,
-      // Cateb_options,
-      // handleCatebChange,
-
       submitHandle,
     };
   },

@@ -4,107 +4,95 @@
     list-type="picture-card"
     :on-preview="handlePreview"
     :on-remove="handleRemove"
+    :before-upload="handleBeforeUpload"
   >
     <!-- <el-icon>+</el-icon> -->
   </el-upload>
 
   <el-dialog v-model="dialogVisible">
-    <img w-full :src="dialogImageUrl" alt="Preview Image" />
+    <img
+      w-full
+      :src="dialogImageUrl"
+      alt="Preview Image"
+      style="max-width: 100%; max-height: 100%"
+    />
   </el-dialog>
 
-  <!-- <el-form-item label="图片">
-    <el-upload
-      v-model:file-list="fileData.fileList"
-      :auto-upload="false"
-      :on-success="onSuccess"
-      :before-upload="beforeUpload"
-      :on-exceed="handleExceed"
-      multiple
-      list-type="picture-card"
-    >
-      <template #trigger>
-        <el-button size="small" type="primary">选取文件</el-button>
-      </template>
-
-    </el-upload>
-  </el-form-item> -->
+  <input multiple type="file" @change="handleFileChange" />
 </template>
 
-<script>
-import { computed, reactive, ref } from "vue-demi";
-export default {
-  name: "PdFile",
-  props: ["object"],
-  setup(props) {
-    const fileData = reactive({
-      fileList: [],
-    });
-    fileData.fileList = computed(() => {
-      const imgs = props.object.imgs;
-      const fls = [];
-      if (imgs && imgs.length > 0) {
-        for (let i in imgs) {
-          let img = imgs[i];
-          fls.push({
-            name: "img" + i,
-            url: "/h3" + img,
-          });
-        }
-      }
-      return fls;
-    });
+<script setup>
+import { computed, reactive, ref, defineProps } from "vue";
+import { useStore } from "vuex";
+const store = useStore();
 
-    const dialogImageUrl = ref("");
-    const dialogVisible = ref(false);
-    const handlePreview = (uploadFile) => {
-      dialogImageUrl.value = uploadFile.url;
-      dialogVisible.value = true;
-    };
-    const handleRemove = (uploadFile, uploadFiles) => {
-      console.debug(" @@ 占位 ", uploadFiles);
-      const url = uploadFile.url;
-      console.debug(" @@ 占位 ", url);
-    };
-    const handleChange = (uploadFile, uploadFiles) => {
-      console.debug(" @@ 占位 ", uploadFile.name);
-      console.debug(" @@ 占位 ", uploadFiles);
+const props = defineProps({
+  object: Object,
+});
+const fileData = reactive({
+  fileList: [],
+});
+fileData.fileList = computed(() => {
+  const imgs = props.object.imgs;
+  const fls = [];
+  if (imgs && imgs.length > 0) {
+    for (let i in imgs) {
+      let img = imgs[i];
+      fls.push({
+        name: "img" + i,
+        url: "/h3" + img,
+      });
+    }
+  }
+  return fls;
+});
 
-      return;
-      // const url = uploadFile.url;
-      // fileData.fileList.push({
-      //   name: "newImgs",
-      //   url,
-      //   uid: 1676887455849,
-      //   status: "success"
-      // })
-      // fileData.fileList.push(uploadFile);
-    };
-
-    // const onSuccess = () => {
-    //   console.log("onSuccess");
-    // };
-    // const beforeUpload = () => {
-    //   console.log("beforeUpload");
-    // };
-    // const handleExceed = () => {
-    //   console.log("handleExceed")
-    // };
-
-    return {
-      fileData,
-
-      dialogImageUrl,
-      dialogVisible,
-      handlePreview,
-      handleRemove,
-      handleChange,
-
-      // onSuccess,
-      // beforeUpload,
-      // handleExceed,
-    };
-  },
+const dialogImageUrl = ref("");
+const dialogVisible = ref(false);
+const handlePreview = (uploadFile) => {
+  dialogImageUrl.value = uploadFile.url;
+  dialogVisible.value = true;
 };
+const handleRemove = async (uploadFile, uploadFiles) => {
+  /** 占位符 */
+  if (uploadFiles.name) uploadFiles.name = 1;
+  let url = uploadFile.url;
+  if (url) {
+    url = url.split("/h3")[1];
+    if (url) {
+      await store.dispatch("Pd/update", {
+        filter: { _id: props.object._id },
+        update: {
+          $remove: {
+            imgs: [url],
+          },
+        },
+      });
+    }
+  }
+};
+const handleBeforeUpload = (rawFile) => {
+  alert("暂时不用这个功能");
+  if (rawFile.type !== "image/jpeg") {
+    alert("请上传图片");
+    return false;
+  }
+};
+
+/** 要提交的文件 */
+async function handleFileChange(event) {
+  const filter = { _id: props.object._id }
+  const flagArrs = ["imgs"];
+
+  const files = event.target.files;
+
+  const formData = new FormData();
+  formData.append("body", JSON.stringify({ filter, update: {}, flagArrs }));
+  for(let i in files) {
+    formData.append("imgs", files[i]);
+  }
+  await store.dispatch("Pd/update", formData);
+}
 </script>
 
 <style>

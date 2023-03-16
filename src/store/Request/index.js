@@ -32,6 +32,7 @@ export default {
         },
         MT_pageSet(state, page=1) {
             try {
+                if(isNaN(page) || page<1) throw "page 传递错误";
                 state.skip = (page - 1) * state.limit;
             } catch(e) {
                 console.error("Reqest MT_pageSet Error: ", e);
